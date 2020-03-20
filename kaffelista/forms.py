@@ -11,7 +11,9 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
 
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-
+    
+    user_type=BooleanField('Admin?') #Tillagd! 20/3-20
+    
     submit=SubmitField('Sign up')
 
 class LoginForm(FlaskForm):
