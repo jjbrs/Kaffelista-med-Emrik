@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    user_type = db.Column(db.String(10), nullable = False)
+    user_type = db.Column(db.String(10), nullable = False) # nu ser den ut såhär: user_type = db.Column(db.Integer()) # Har ändrat till integer istället för en string plus att jag har tagit bort 'nullable=False'
     invoices = db.relationship('Invoice', backref='customer', lazy=True)
 
     def __repr__(self):
