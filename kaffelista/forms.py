@@ -29,18 +29,15 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-
     password = PasswordField('Password', validators=[DataRequired()])
-
     remember = BooleanField('Remember me')
-
     submit = SubmitField('Login')
 
-class FikaForm(FlaskForm):
-    kaffe = IntegerField('Kaffe', validators=[Length(min = 0, max = 10)])
-    milk = IntegerField('Mjölk', validators=[Length(min = 0, max = 10)] )
-    te = IntegerField('Te', validators=[Length(min = 0, max = 10)])
-    kaka = IntegerField('Kaka', validators=[Length(min = 0, max = 20)])
+class FikaForm(FlaskForm): #This is the choises we want to display for the user, so they can choose how many of each they want to buy:
+    kaffe = IntegerField('Kaffe:', default=0)
+    milk = IntegerField('Mjölk:', default=0)
+    te = IntegerField('Te:', default=0)
+    kaka = IntegerField('Kaka:', default=0)
     submit = SubmitField('Bekräfta val')
 
 
@@ -63,3 +60,11 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('This email already exist, use another one')
+
+
+class PurchaseForm(FlaskForm): #This is the same as FikaForm
+    kaffe = IntegerField('Kaffe:', default=0)
+    milk = IntegerField('Mjölk:', default=0)
+    te = IntegerField('Te:', default=0)
+    kaka = IntegerField('Kaka:', default=0)
+    submit = SubmitField('Bekräfta val')
