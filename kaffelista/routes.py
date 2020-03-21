@@ -1,34 +1,14 @@
 from flask import render_template, url_for, flash, redirect, request
 from kaffelista import app, db, bcrypt
-from kaffelista.forms import RegistrationForm, LoginForm
+from kaffelista.forms import RegistrationForm, LoginForm, UpdateAccountForm, FikaForm, PurchaseForm
 from kaffelista.models import User, Fika, Purchase, Invoice
 from flask_login import login_user, current_user, logout_user, login_required
 
 db.create_all()
 
-users = [
-    {
-
-        'User':'Johanna',
-        'email': 'admin@kaffelista.com',
-        'Fika':'Kaffe',
-        'Date': '2020/03/18'
-
-},
-{       'User': 'Emrik',
-        'email': 'admin2@kaffelista.com',
-        'Fika': 'Kaka',
-        'Date':'2020/03/18'
-
-    }
-   ]
-
-
 @app.route("/")
-def hello():
-    return '<h1>BAJSKORV!</h1>'
-
-
+#def hello():
+#    return '<h1>Fikadags!</h1>'
 @app.route("/home")
 def home():
     return render_template('home.html', title='Hem')
@@ -58,14 +38,14 @@ def register():
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('fika'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username = form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember = form.remember.data)
-            #next_page = request.args.get('next') #KOLLA OM DETTA ÄR NÖDVÄNDIGT FÖR OSS
-            return redirect(url_for('home')) #HÄNGER IHOP MED FÖREGÅENDE RAD redirect(next_page) if next_page else
+            next_page = request.args.get('next') #KOLLA OM DETTA ÄR NÖDVÄNDIGT FÖR OSS
+            return redirect(url_for('fika')) #HÄNGER IHOP MED FÖREGÅENDE RAD redirect(next_page) if next_page else
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title = 'Login', form = form)
@@ -76,7 +56,35 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route("/account")
+@app.route("/account", methods = ['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='Account')
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+    return render_template('account.html', title='Account', form=form)
+
+
+
+@app.route("/fika", methods = ['GET', 'POST'])
+@login_required
+def fika():
+    form = PurchaseForm()
+    if form.validate_on_submit():
+        purchase = Purchase(kaffe=form.kaffe.data, te=form.te.data, milk=form.milk.data,
+                    kaka=form.kaka.data)
+        db.session.add(purchase)
+        db.session.commit()
+        flash('Du har nu köpt lite fika!', 'info')
+    return render_template('fika.html', title='Fika', form=form)
