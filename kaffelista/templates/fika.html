@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Fikautbud</legend>
+            <div class="form-group">
+                {{ form.kaffe.label(class="form-control-label") }}
+                {% if form.kaffe.errors %}
+                    {{ form.kaffe(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.title.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.kaffe(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+                    <div class="form-group">
+                {{ form.milk.label(class="form-control-label") }}
+                {% if form.milk.errors %}
+                    {{ form.milk(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.milk.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.milk(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.te.label(class="form-control-label") }}
+                {% if form.te.errors %}
+                    {{ form.te(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.te.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.te(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+             <div class="form-group">
+                {{ form.kaka.label(class="form-control-label") }}
+                {% if form.kaka.errors %}
+                    {{ form.kaka(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.kaka.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.te(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+
+{% endblock %}
