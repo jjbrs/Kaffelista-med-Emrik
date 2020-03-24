@@ -2,9 +2,9 @@
 from flask_wtf import FlaskForm
 #from flask.wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, RadioField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from kaffelista.models import User
+from kaffelista.models import User, Purchase, Fika
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
@@ -13,7 +13,6 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    user_type=BooleanField('Admin?')
     submit=SubmitField('Lets start to fika!')
 
     def validate_username(self, username):
@@ -32,10 +31,13 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
-    
-    
+
 class FikaForm(FlaskForm): #This is the choises we want to display for the user:
-    type_of_fika=RadioField('Fika val', choices=[('kaffe', 'Kaffe'), ('kaffe+mjölk', 'Kaffe med mjölk'), ('te', 'Te'), ('te+mjölk', 'Te med mjölk'), ('kaka', 'Kaka')])
+    #fika_choices = Fika.query.all()
+    #fika_choices = [(fika.id, fika.name_of_fika) for fika in fika_choices]
+    #type_of_fika=RadioField('Fika val', choices= fika_choices)
+    type_of_fika = RadioField('Fika val', choices=[('fika', 'Kaffe'), ('fika', 'Kaffe med mjölk'),
+                                                   ('fika','Te'), ('fika','Te med mjölk'), ('fika', 'Kaka')])
     submit = SubmitField('Bekräfta köp')
 
 
@@ -47,7 +49,7 @@ class UpdateAccountForm(FlaskForm):
     submit=SubmitField('Update')
 
     def validate_username(self, username):
-        if username.data != current_user.username: #detta är för att kunna uppdatera användarnamn och email (koden nedaför,)
+        if username.data != current_user.username:
             user = User.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('This username already exist, pick another username')
@@ -59,10 +61,3 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('This email already exist, use another one')
 
-
-class PurchaseForm(FlaskForm): #This is the same as FikaForm
-    kaffe = IntegerField('Kaffe:', default=0)
-    milk = IntegerField('Mjölk:', default=0)
-    te = IntegerField('Te:', default=0)
-    kaka = IntegerField('Kaka:', default=0)
-    submit = SubmitField('Bekräfta val')
