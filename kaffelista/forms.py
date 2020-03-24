@@ -32,13 +32,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
-
-class FikaForm(FlaskForm): #This is the choises we want to display for the user, so they can choose how many of each they want to buy:
-    kaffe = IntegerField('Kaffe:', default=0)
-    milk = IntegerField('Mjölk:', default=0)
-    te = IntegerField('Te:', default=0)
-    kaka = IntegerField('Kaka:', default=0)
-    submit = SubmitField('Bekräfta val')
+    
+    
+class FikaForm(FlaskForm): #This is the choises we want to display for the user:
+    type_of_fika=RadioField('Fika val', choices=[('kaffe', 'Kaffe'), ('kaffe+mjölk', 'Kaffe med mjölk'), ('te', 'Te'), ('te+mjölk', 'Te med mjölk'), ('kaka', 'Kaka')])
+    submit = SubmitField('Bekräfta köp')
 
 
 class UpdateAccountForm(FlaskForm):
