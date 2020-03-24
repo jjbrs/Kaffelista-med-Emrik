@@ -76,15 +76,16 @@ def account():
     return render_template('account.html', title='Account', form=form)
 
 
-
 @app.route("/fika", methods = ['GET', 'POST'])
 @login_required
-def fika():
-    form = PurchaseForm()
+def fika(fika_id):
+    form = FikaForm()
+    fika=Fika.query.get().first()
     if form.validate_on_submit():
-        purchase = Purchase(kaffe=form.kaffe.data, te=form.te.data, milk=form.milk.data,
-                    kaka=form.kaka.data)
-        db.session.add(purchase)
-        db.session.commit()
-        flash('Du har nu köpt lite fika!', 'info')
+        #if current_user.is_authenticated:
+            print(fika)
+            #purchase=Purchase(fika=fika, type_of_fika=form.type_of_fika.data, user=current_user)
+            #db.session.add(purchase)
+            #db.session.commit()
+            flash('Du har nu köpt lite fika!', 'info')
     return render_template('fika.html', title='Fika', form=form)
