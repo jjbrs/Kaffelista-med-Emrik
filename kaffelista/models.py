@@ -1,6 +1,8 @@
 from datetime import datetime
 from kaffelista import db, login_manager
 from flask_login import UserMixin
+from dataclasses import dataclass
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -13,18 +15,21 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    user_type = db.Column(db.Integer()) # Har ändrat till integer istället för en string plus att jag har tagit bort 'nullable=False'
+    userlevel=db.Column(db.Integer, nullable=False, default=0)
     invoices = db.relationship('Invoice', backref='customer', lazy=True)
 
     def __repr__(self):
+
         return f"User('{self.username}', '{self.email}', '{self.first_name}', '{self.last_name}')"
 
 class Fika(db.Model):
-    id = db.Column(db.Integer, primary_key=True, nullable = False)
-    #name_of_fika doesnt feel totaly right, because we want the user to have more specifik choises like our 'FikaForm', how do we get it right?
-    #Can we do like columns for each specific choise of fika? Or how do we get them like row in our database?
+    id = db.Column(db.Integer, primary_key=True)
     name_of_fika = db.Column(db. String(20), nullable=False)
-    price = db.Column(db.Float(20), nullable = False)
+    price = db.Column(db.Integer, nullable = False)
+
+    def __repr__(self):
+
+        return f"Fika('{self.id}, {self.name_of_fika}', '{self.price}')"
 
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key = True, nullable = False)
@@ -32,9 +37,7 @@ class Purchase(db.Model):
     user = db.relationship(User)
     fika_id = db.Column(db.Integer, db.ForeignKey('fika.id'), nullable = False)
     fika = db.relationship(Fika)
-    type_of_fika = db.Column(db.String(20), nullable=False) #And right now were not sure what we ment with type_of_fika...
-                                                            #Should you think it be the same as: name_of_fika?
-    #quantity = db.Column(db.Integer)
+    type_of_fika = db.Column(db.String(20), nullable=False)
     date_of_purchase = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
 class Invoice(db.Model):
