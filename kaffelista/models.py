@@ -34,7 +34,7 @@ class Purchase(db.Model):
     fika = db.relationship(Fika)
     type_of_fika = db.Column(db.String(20), nullable=False) #And right now were not sure what we ment with type_of_fika...
                                                             #Should you think it be the same as: name_of_fika?
-    quantity = db.Column(db.Integer)
+    #quantity = db.Column(db.Integer)
     date_of_purchase = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
 class Invoice(db.Model):
