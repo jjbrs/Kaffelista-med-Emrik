@@ -39,6 +39,10 @@ class Purchase(db.Model):
     fika = db.relationship(Fika)
     type_of_fika = db.Column(db.String(20), nullable=False)
     date_of_purchase = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    
+        def __repr__(self):
+
+        return f"Purchase('{self.id}', '{self.user}', '{self.type_of_fika}', '{self.date_of_purchase}')"
 
 class Invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
