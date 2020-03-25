@@ -30,6 +30,11 @@ hashed_password = bcrypt.generate_password_hash('password').decode('utf-8')
 default_user1=User(username='johannatest', first_name='johanna', last_name='souza', email='test@mail.com', password=hashed_password)
 db.session.add(default_user1)
 
+
+hashed_password = bcrypt.generate_password_hash('password').decode('utf-8')
+default_user2=User(username='emriktest', first_name='emrik', last_name='larsson', email='test2@mail.com', password=hashed_password, userlevel=1)
+db.session.add(default_user2)
+
 db.session.commit()
 
 
