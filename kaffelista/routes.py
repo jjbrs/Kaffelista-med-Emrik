@@ -83,10 +83,9 @@ def account():
 def fika():
     form = FikaForm()
     if form.validate_on_submit():
-        fika = Fika.query.get('fika.id') # Tror det är här den ska hämta det som valdes i FikaForm och sedan lägga till i 'purchase',
-                                        # att där är "fika=valet i FikaForm. Och vi behöver koppla då valen till de olika 'id' som hänger ihop med Fika
-        purchase=Purchase(fika=fika, type_of_fika=form.type_of_fika.data, user=current_user)
+        purchase=Purchase(type_of_fika=form.type_of_fika.data, user=current_user)
         db.session.add(purchase)
         db.session.commit()
         flash('Du har nu köpt lite fika!', 'info')
+        redirect(url_for('fika'))
     return render_template('fika.html', title='Fika', form=form)
