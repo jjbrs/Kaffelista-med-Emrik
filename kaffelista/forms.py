@@ -33,11 +33,11 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class FikaForm(FlaskForm): #This is the choises we want to display for the user:
-    #fika_choices = Fika.query.all()
-    #fika_choices = [(fika.id, fika.name_of_fika) for fika in fika_choices]
-    #type_of_fika=RadioField('Fika val', choices= fika_choices)
-    type_of_fika = RadioField('Fika val', choices=[('fika', 'Kaffe'), ('fika', 'Kaffe med mjölk'),
-                                                   ('fika','Te'), ('fika','Te med mjölk'), ('fika', 'Kaka')])
+    fika_choices = Fika.query.all()
+    fika_choices = [(fika.id, fika.name_of_fika) for fika in fika_choices]
+    type_of_fika=RadioField('Fika val', choices= fika_choices, , coerce=int)
+    #type_of_fika = RadioField('Fika val', choices=[('fika', 'Kaffe'), ('fika', 'Kaffe med mjölk'),
+                                                   #('fika','Te'), ('fika','Te med mjölk'), ('fika', 'Kaka')])
     submit = SubmitField('Bekräfta köp')
 
 
