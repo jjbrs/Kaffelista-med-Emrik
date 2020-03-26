@@ -1,5 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
-
+from flask import render_template, url_for, flash, redirect, request, abort
 from kaffelista import app, db, bcrypt
 from kaffelista.forms import RegistrationForm, LoginForm, UpdateAccountForm, FikaForm
 from kaffelista.models import User, Fika, Purchase, Invoice
@@ -87,5 +86,21 @@ def fika():
         db.session.add(purchase)
         db.session.commit()
         flash('Du har nu köpt lite fika!', 'info')
-        redirect(url_for('fika'))
+        next_page = request.args.get('next')
+        return redirect(url_for('fika'))
     return render_template('fika.html', title='Fika', form=form)
+
+
+@app.route("/admin", methods = ['GET','POST'])
+@login_required
+def admin():
+    if current_user.is_authenticated and current_user.userlevel==1:
+       return render_template('admin.html', title='Admin')
+    else:
+        abort(403)
+        return redirect(url_for('home'))
+
+
+
+
+
