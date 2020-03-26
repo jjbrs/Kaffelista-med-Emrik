@@ -1,5 +1,5 @@
 from datetime import datetime
-from kaffelista import db, login_manager
+from kaffelista import db, login_manager#, admin, ModelView
 from flask_login import UserMixin
 from dataclasses import dataclass
 
@@ -16,11 +16,13 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     userlevel=db.Column(db.Integer, nullable=False, default=0)
-    invoices = db.relationship('Invoice', backref='customer', lazy=True)
+    invoices = db.relationship('Invoice', backref='buyer', lazy=True)
+    purchases = db.relationship('Purchase', backref='customer', lazy=True)
 
     def __repr__(self):
 
         return f"User('{self.username}', '{self.email}', '{self.first_name}', '{self.last_name}')"
+
 
 class Fika(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,18 +33,20 @@ class Fika(db.Model):
 
         return f"Fika('{self.id}, {self.name_of_fika}', '{self.price}')"
 
+
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key = True, nullable = False)
     user_id = db. Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     user = db.relationship(User)
-    fika_id = db.Column(db.Integer, db.ForeignKey('fika.id'), nullable = False)
-    fika = db.relationship(Fika)
+    #fika_id = db.Column(db.Integer, db.ForeignKey('fika.id'), nullable = False)
+    #fika = db.relationship(Fika)
     type_of_fika = db.Column(db.String(20), nullable=False)
     date_of_purchase = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
-    
-        def __repr__(self):
+
+    def __repr__(self):
 
         return f"Purchase('{self.id}', '{self.user}', '{self.type_of_fika}', '{self.date_of_purchase}')"
+
 
 class Invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -52,3 +56,15 @@ class Invoice(db.Model):
     year = db.Column(db.Integer(), nullable = False)
     value = db.Column(db.Integer)
     payment_status = db.Column(db.Integer)
+
+
+class Token(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_expired = db.Column(db.DateTime, nullable=False)
+    token = db.Column(db.String(60), nullable=False, index=True)
+
+
+#admin.add_view(ModelView(User, db.session))
+#admin.add_view(ModelView(Fika, db.session))
+#admin.add_view(ModelView(Purchase, db.session))
+#admin.add_view(ModelView(Invoice, db.session))
