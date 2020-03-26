@@ -75,7 +75,7 @@ req_headers = {'Content-Type': 'application/json',
 purchase = {'type_of_fika': 'Define here the type of fika of the student llllll',
             'user': 1}
 
-reply = requests.purchase(f'http://{host}:{port}/api/purchase', headers=req_headers, data=json.dumps(purchase))
+reply = requests.post(f'http://{host}:{port}/api/purchase', headers=req_headers, data=json.dumps(purchase))
 
 if reply.status_code == 201:
     print('Created with success')
@@ -98,7 +98,7 @@ req_headers = {'Content-Type': 'application/json',
                'Authorization': f'Bearer {token}'
               }
 
-reply = requests.get(f'http://{host}:{port}/api/purchase/{purchase_id}', headers=req_headers)
+reply = requests.get(f'http://{host}:{port}/api/purchase/{2}', headers=req_headers)
 
 if reply.status_code == 200:
     print('Purchase found:')
@@ -123,7 +123,7 @@ req_headers = {'Content-Type': 'application/json',
 purchase = {'type_of_fika': 'Define here the type of fika of the student llllll',
              'user': 1}
 
-reply = requests.put(f'http://{host}:{port}/api/purchase/{purchase_id}', headers=req_headers, data=json.dumps(purchase))
+reply = requests.put(f'http://{host}:{port}/api/purchase/{1}', headers=req_headers, data=json.dumps(purchase))
 
 if reply.status_code == 200:
     print('Replaced with success')
@@ -149,7 +149,7 @@ purchase = {'type_of_fika': 'Define here the title of the student llllll -- repl
             'user': 1
              }
 
-reply = requests.patch(f'http://{host}:{port}/api/purchaset/{purchase_id}', headers=req_headers, data=json.dumps(purchase))
+reply = requests.patch(f'http://{host}:{port}/api/purchaset/{2}', headers=req_headers, data=json.dumps(purchase))
 
 if reply.status_code == 200:
     print('Updated with success')
@@ -171,7 +171,7 @@ req_headers = {'Content-Type': 'application/json',
                'Authorization': f'Bearer {token}'
               }
 
-reply = requests.delete(f'http://{host}:{port}/api/purchase/{purchase_id}', headers=req_headers)
+reply = requests.delete(f'http://{host}:{port}/api/purchase/{2}', headers=req_headers)
 
 if reply.status_code == 200:
     print('Purchase deleted:')
