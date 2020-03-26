@@ -25,27 +25,44 @@ db.session.add(fika)
 fika=Fika(name_of_fika='Kaka', price=2)
 db.session.add(fika)
 
+fika=Fika(name_of_fika='Allt på en gång', price=5)
+db.session.add(fika)
+
 
 hashed_password = bcrypt.generate_password_hash('password').decode('utf-8')
-default_user1=User(username='johannatest', first_name='johanna', last_name='souza', email='test@mail.com', password=hashed_password)
+default_user1=User(username='johannatest', first_name='johanna', last_name='souza', email='test1@mail.com', password=hashed_password)
 db.session.add(default_user1)
-
 
 hashed_password = bcrypt.generate_password_hash('password').decode('utf-8')
 default_user2=User(username='emriktest', first_name='emrik', last_name='larsson', email='test2@mail.com', password=hashed_password, userlevel=1)
 db.session.add(default_user2)
 
+purchase=Purchase(user=default_user1, type_of_fika=1)
+db.session.add(purchase)
+
+purchase=Purchase(user=default_user1, type_of_fika=1)
+db.session.add(purchase)
+
+purchase=Purchase(user=default_user1, type_of_fika=1)
+db.session.add(purchase)
+
+purchase=Purchase(user=default_user1, type_of_fika=1)
+db.session.add(purchase)
+
+purchase=Purchase(user=default_user2, type_of_fika=2)
+db.session.add(purchase)
+
+purchase=Purchase(user=default_user2, type_of_fika=2)
+db.session.add(purchase)
+
+purchase=Purchase(user=default_user2, type_of_fika=2)
+db.session.add(purchase)
+
+purchase=Purchase(user=default_user2, type_of_fika=2)
+db.session.add(purchase)
+
+invoice=Invoice()
+
 db.session.commit()
 
 
-
-
-
-
-#def createFika():
-  # name_of_fika = ['kaffe', 'kaffe+mjölk', 'te', 'te+mjölk', 'kaka']
-  # price = [2,3,2,3,2]
-
-   #for i in range(2):
-    #   fika = Fika(name_of_fika=name_of_fika[i], price = price[i])
-     #  db.session.add(fika)
