@@ -49,7 +49,7 @@ if reply.status_code == 200:
     for purchase in reply.json():
         print('Purchase', purchase['id'])
         for key, value in purchase.items():
-            if key == 'content':
+            if key == 'type_of_fika': #tror det ska vara type_of_fika här? har ändrat från 'content'
                 print('\t', key.ljust(15), ':', value[:50].replace('\n', ''), '...')
             elif key == 'id':
                 continue
@@ -69,7 +69,7 @@ else:
 # step 4: inserting a new post
 print('\n\nInserting a purchase')
 req_headers = {'Content-Type': 'application/json',
-               'Authorization': f'Bearer {token}' }
+               'Authorization': f'Bearer {token}'}
 
 purchase = {'type_of_fika': 'Define here the type of fika of the student llllll',
             'user': 1}
@@ -97,7 +97,7 @@ req_headers = {'Content-Type': 'application/json',
                'Authorization': f'Bearer {token}'
               }
 
-reply = requests.get(f'http://{host}:{port}/api/purchase/{2}', headers=req_headers)
+reply = requests.get(f'http://{host}:{port}/api/purchase/{1}', headers=req_headers)
 
 if reply.status_code == 200:
     print('Purchase found:')
@@ -170,7 +170,7 @@ req_headers = {'Content-Type': 'application/json',
                'Authorization': f'Bearer {token}'
               }
 
-reply = requests.delete(f'http://{host}:{port}/api/purchase/{1}', headers=req_headers)
+reply = requests.delete(f'http://{host}:{port}/api/purchase/{2}', headers=req_headers)
 
 if reply.status_code == 200:
     print('Purchase deleted:')
