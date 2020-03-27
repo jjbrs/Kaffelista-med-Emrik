@@ -25,7 +25,7 @@ def api():
     info = dict()
     info['message'] = 'This is the API to consume blog posts'
     info['services'] = []
-    info['services'].append({'url': '/api/fika', 'method': 'GET', 'description': 'Gets a list of purchases'})
+    info['services'].append({'url': '/api/purchase', 'method': 'GET', 'description': 'Gets a list of purchases'})
     print(info)
     return jsonify(info)
 
@@ -38,6 +38,7 @@ def api_get_users():
 
 @app.route('/api/purchases', methods=['GET'])
 def api_get_purchases():
+
     purchases = Purchase.query.all()
     return jsonify(purchases)
 
@@ -53,7 +54,8 @@ def api_create_purchase():
     data = request.json
     if 'type_of_fika' in data and 'user' in data:
         purchase = Purchase(type_of_fika=data['type_of_fika'],
-                            user_id=int(data['user']))
+                            user_id=int(data['user']),
+                            date_of_purchase=datetime.datetime.utcnow)
         db.session.add(purchase)
         try:
             db.session.commit()  # how would you improve this code?
