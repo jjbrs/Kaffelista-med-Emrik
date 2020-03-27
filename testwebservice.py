@@ -69,8 +69,7 @@ else:
 # step 4: inserting a new post
 print('\n\nInserting a purchase')
 req_headers = {'Content-Type': 'application/json',
-               'Authorization': f'Bearer {token}'
-              }
+               'Authorization': f'Bearer {token}' }
 
 purchase = {'type_of_fika': 'Define here the type of fika of the student llllll',
             'user': 1}
@@ -149,7 +148,7 @@ purchase = {'type_of_fika': 'Define here the title of the student llllll -- repl
             'user': 1
              }
 
-reply = requests.patch(f'http://{host}:{port}/api/purchaset/{2}', headers=req_headers, data=json.dumps(purchase))
+reply = requests.patch(f'http://{host}:{port}/api/purchaset/{1}', headers=req_headers, data=json.dumps(purchase))
 
 if reply.status_code == 200:
     print('Updated with success')
@@ -171,7 +170,7 @@ req_headers = {'Content-Type': 'application/json',
                'Authorization': f'Bearer {token}'
               }
 
-reply = requests.delete(f'http://{host}:{port}/api/purchase/{2}', headers=req_headers)
+reply = requests.delete(f'http://{host}:{port}/api/purchase/{1}', headers=req_headers)
 
 if reply.status_code == 200:
     print('Purchase deleted:')
